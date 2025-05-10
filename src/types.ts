@@ -1,9 +1,8 @@
 export interface Question {
   id: number;
-  text: string;
+  question: string;
   options: string[];
-  answer: string;
-  explanation: string;
+  correctAnswer: string;
 }
 
 export interface QuizAnswer {

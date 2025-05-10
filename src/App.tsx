@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if (!showWelcome) {
-      // Load questions from localStorage or fetch from API
+      // Load questions from localStorage or fetch from JSON file
       const savedQuestions = localStorage.getItem('questions');
       if (savedQuestions) {
         const parsedQuestions = JSON.parse(savedQuestions);
@@ -28,23 +28,23 @@ function App() {
           .slice(0, 20);
         setQuestions(shuffled);
       } else {
-        // TODO: Replace with actual API call
-        fetch('/api/questions')
+        fetch('/questions.json')
           .then(res => res.json())
           .then(data => {
-            const shuffled = data
+            const shuffled = data.questions
               .sort(() => 0.5 - Math.random())
               .slice(0, 20);
             setQuestions(shuffled);
-            localStorage.setItem('questions', JSON.stringify(data));
+            localStorage.setItem('questions', JSON.stringify(data.questions));
+          })
+          .catch(error => {
+            console.error('Error loading questions:', error);
           });
       }
     }
   }, [showWelcome]);
 
-  const handleAnswer = () => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const answer = currentQuestion.options ? currentQuestion.options[0] : '';
+  const handleAnswer = (answer: string) => {
     setAnswer(currentQuestionIndex, answer);
     
     if (currentQuestionIndex + 1 < questions.length) {

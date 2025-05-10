@@ -7,69 +7,46 @@ interface Props {
   question: Question;
   index: number;
   total: number;
-  onAnswer: (correct: boolean) => void;
+  onAnswer: (answer: string) => void;
 }
 
 const QuestionCard: React.FC<Props> = ({ question, index, total, onAnswer }) => {
-  const [openAnswer, setOpenAnswer] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
 
-  const handleSubmit = () => {
-    const userAnswer = question.options ? question.options[0] : openAnswer;
-    const correct = userAnswer.toLowerCase().trim() === question.answer.toLowerCase().trim();
+  const handleAnswer = (answer: string) => {
+    const isCorrect = answer === question.correctAnswer;
     
-    if (!correct) {
+    if (!isCorrect) {
       setShowModal(true);
     } else {
-      onAnswer(true);
+      onAnswer(answer);
     }
-  };
-
-  const handleAnswer = () => {
-    onAnswer(true);
   };
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
       <div className="mb-4">
         <span className="text-sm text-gray-500">Domanda {index + 1} di {total}</span>
-        <h2 className="text-xl font-semibold mt-2">{question.text}</h2>
+        <h2 className="text-xl font-semibold mt-2">{question.question}</h2>
       </div>
 
-      {question.options ? (
-        <div className="space-y-3">
-          {question.options.map((option, idx) => (
-            <button
-              key={idx}
-              onClick={handleAnswer}
-              className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      ) : (
-        <textarea
-          value={openAnswer}
-          onChange={(e) => setOpenAnswer(e.target.value)}
-          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          rows={4}
-          placeholder="Scrivi la tua risposta..."
-        />
-      )}
-
-      <button
-        onClick={handleSubmit}
-        className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors"
-      >
-        Conferma risposta
-      </button>
+      <div className="space-y-3">
+        {question.options.map((option, idx) => (
+          <button
+            key={idx}
+            onClick={() => handleAnswer(option)}
+            className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+          >
+            {option}
+          </button>
+        ))}
+      </div>
 
       <Dialog
         open={showModal}
         onClose={() => {
           setShowModal(false);
-          onAnswer(false);
+          onAnswer(question.correctAnswer);
         }}
         className="relative z-50"
       >
@@ -84,7 +61,7 @@ const QuestionCard: React.FC<Props> = ({ question, index, total, onAnswer }) => 
               <button
                 onClick={() => {
                   setShowModal(false);
-                  onAnswer(false);
+                  onAnswer(question.correctAnswer);
                 }}
                 className="text-gray-400 hover:text-gray-500"
               >
@@ -94,16 +71,13 @@ const QuestionCard: React.FC<Props> = ({ question, index, total, onAnswer }) => 
 
             <div className="mt-4">
               <p className="text-sm text-gray-500">Risposta corretta:</p>
-              <p className="mt-1 font-medium">{question.answer}</p>
-              
-              <p className="mt-4 text-sm text-gray-500">Spiegazione:</p>
-              <p className="mt-1">{question.explanation}</p>
+              <p className="mt-1 font-medium">{question.correctAnswer}</p>
             </div>
 
             <button
               onClick={() => {
                 setShowModal(false);
-                onAnswer(false);
+                onAnswer(question.correctAnswer);
               }}
               className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
