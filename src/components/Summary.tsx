@@ -3,12 +3,12 @@ import type { Question } from '../types';
 
 interface Props {
   questions: Question[];
-  answers: Record<number, boolean>;
+  answers: { [key: number]: string };
   onRestart: () => void;
 }
 
 const Summary: React.FC<Props> = ({ questions, answers, onRestart }) => {
-  const correctAnswers = Object.values(answers).filter(Boolean).length;
+  const correctAnswers = questions.filter((q, idx) => answers[idx]?.toLowerCase().trim() === q.answer.toLowerCase().trim()).length;
   const percentage = Math.round((correctAnswers / questions.length) * 100);
 
   return (

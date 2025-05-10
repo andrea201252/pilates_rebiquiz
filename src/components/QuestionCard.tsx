@@ -11,16 +11,13 @@ interface Props {
 }
 
 const QuestionCard: React.FC<Props> = ({ question, index, total, onAnswer }) => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
   const [openAnswer, setOpenAnswer] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
 
   const handleSubmit = () => {
-    const userAnswer = question.options ? selectedOption : openAnswer;
+    const userAnswer = question.options ? question.options[0] : openAnswer;
     const correct = userAnswer.toLowerCase().trim() === question.answer.toLowerCase().trim();
     
-    setIsCorrect(correct);
     if (!correct) {
       setShowModal(true);
     } else {
@@ -28,30 +25,27 @@ const QuestionCard: React.FC<Props> = ({ question, index, total, onAnswer }) => 
     }
   };
 
+  const handleAnswer = () => {
+    onAnswer(true);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
       <div className="mb-4">
         <span className="text-sm text-gray-500">Domanda {index + 1} di {total}</span>
-        <h2 className="text-xl font-semibold mt-2">{question.question}</h2>
+        <h2 className="text-xl font-semibold mt-2">{question.text}</h2>
       </div>
 
       {question.options ? (
         <div className="space-y-3">
           {question.options.map((option, idx) => (
-            <label
+            <button
               key={idx}
-              className="flex items-center space-x-3 p-3 rounded-lg border cursor-pointer hover:bg-gray-50"
+              onClick={handleAnswer}
+              className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
             >
-              <input
-                type="radio"
-                name="answer"
-                value={option}
-                checked={selectedOption === option}
-                onChange={(e) => setSelectedOption(e.target.value)}
-                className="h-4 w-4 text-blue-600"
-              />
-              <span>{option}</span>
-            </label>
+              {option}
+            </button>
           ))}
         </div>
       ) : (

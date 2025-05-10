@@ -1,6 +1,7 @@
 export interface Question {
-  question: string;
-  options: string[] | null;
+  id: number;
+  text: string;
+  options: string[];
   answer: string;
   explanation: string;
 }

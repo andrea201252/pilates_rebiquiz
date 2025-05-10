@@ -1,34 +1,43 @@
 import { create } from 'zustand';
-import { Question } from '../types';
+import type { Question } from '../types';
 
 interface QuizState {
   questions: Question[];
-  currentIndex: number;
-  answers: Record<number, boolean>;
+  currentQuestionIndex: number;
+  answers: { [key: number]: string };
   showSummary: boolean;
+  showWelcome: boolean;
   setQuestions: (questions: Question[]) => void;
-  setCurrentIndex: (index: number) => void;
-  addAnswer: (index: number, correct: boolean) => void;
-  setShowSummary: (show: boolean) => void;
+  setAnswer: (questionIndex: number, answer: string) => void;
+  nextQuestion: () => void;
   resetQuiz: () => void;
+  setShowSummary: (show: boolean) => void;
+  setShowWelcome: (show: boolean) => void;
 }
 
-const useQuizStore = create<QuizState>((set) => ({
+export const useQuizStore = create<QuizState>((set) => ({
   questions: [],
-  currentIndex: 0,
+  currentQuestionIndex: 0,
   answers: {},
   showSummary: false,
+  showWelcome: true,
   setQuestions: (questions) => set({ questions }),
-  setCurrentIndex: (index) => set({ currentIndex: index }),
-  addAnswer: (index, correct) => set((state) => ({
-    answers: { ...state.answers, [index]: correct }
-  })),
+  setAnswer: (questionIndex, answer) =>
+    set((state) => ({
+      answers: { ...state.answers, [questionIndex]: answer },
+    })),
+  nextQuestion: () =>
+    set((state) => ({
+      currentQuestionIndex: state.currentQuestionIndex + 1,
+      showSummary: state.currentQuestionIndex + 1 >= state.questions.length,
+    })),
+  resetQuiz: () =>
+    set({
+      currentQuestionIndex: 0,
+      answers: {},
+      showSummary: false,
+      showWelcome: true,
+    }),
   setShowSummary: (show) => set({ showSummary: show }),
-  resetQuiz: () => set({
-    currentIndex: 0,
-    answers: {},
-    showSummary: false
-  })
-}));
-
-export default useQuizStore; 
+  setShowWelcome: (show) => set({ showWelcome: show }),
+})); 

@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 import QuestionCard from './components/QuestionCard';
 import Summary from './components/Summary';
-import useQuizStore from './store/quizStore';
+import { useQuizStore } from './store/quizStore';
 
 function App() {
   const {
     questions,
-    currentIndex,
+    currentQuestionIndex,
     answers,
     showSummary,
     setQuestions,
-    setCurrentIndex,
-    addAnswer,
+    setAnswer,
     setShowSummary,
-    resetQuiz
+    resetQuiz,
+    showWelcome,
+    setShowWelcome
   } = useQuizStore();
-
-  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     if (!showWelcome) {
@@ -43,11 +42,10 @@ function App() {
     }
   }, [showWelcome]);
 
-  const handleAnswer = (correct: boolean) => {
-    addAnswer(currentIndex, correct);
-    
-    if (currentIndex + 1 < questions.length) {
-      setCurrentIndex(currentIndex + 1);
+  const handleAnswer = (answer: string) => {
+    setAnswer(currentQuestionIndex, answer);
+    if (currentQuestionIndex + 1 < questions.length) {
+      // Passa alla prossima domanda
     } else {
       setShowSummary(true);
     }
@@ -92,8 +90,8 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-yellow-50 to-blue-100 py-8">
       {questions.length > 0 && (
         <QuestionCard
-          question={questions[currentIndex]}
-          index={currentIndex}
+          question={questions[currentQuestionIndex]}
+          index={currentQuestionIndex}
           total={questions.length}
           onAnswer={handleAnswer}
         />
