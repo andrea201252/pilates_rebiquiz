@@ -42,7 +42,7 @@ function App() {
     }
   }, [showWelcome]);
 
-  const handleAnswer = (correct: boolean) => {
+  const handleAnswer = () => {
     const currentQuestion = questions[currentQuestionIndex];
     const answer = currentQuestion.options ? currentQuestion.options[0] : '';
     setAnswer(currentQuestionIndex, answer);
