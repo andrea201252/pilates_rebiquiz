@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "Chi ha creato il metodo Pilates?",
+      "options": [
+        "Joseph Pilates",
+        "Mary Pilates",
+        "Clara Pilates",
+        "John Pilates"
+      ],
+      "correctAnswer": "Joseph Pilates"
+    },
+    {
+      "id": 2,
+      "question": "In quale anno Joseph Pilates ha creato il suo metodo?",
+      "options": [
+        "1920",
+        "1930",
+        "1940",
+        "1950"
+      ],
+      "correctAnswer": "1920"
+    },
+    {
+      "id": 3,
+      "question": "Qual è il principio fondamentale del Pilates?",
+      "options": [
+        "La respirazione",
+        "La velocità",
+        "La forza",
+        "La flessibilità"
+      ],
+      "correctAnswer": "La respirazione"
+    },
+    {
+      "id": 4,
+      "question": "Quale di questi non è un principio del Pilates?",
+      "options": [
+        "La velocità",
+        "Il controllo",
+        "La concentrazione",
+        "La precisione"
+      ],
+      "correctAnswer": "La velocità"
+    },
+    {
+      "id": 5,
+      "question": "Quale attrezzo è stato inventato da Joseph Pilates?",
+      "options": [
+        "Il Reformer",
+        "La palla",
+        "Il foam roller",
+        "Il ring"
+      ],
+      "correctAnswer": "Il Reformer"
+    }
+  ]
+} 
