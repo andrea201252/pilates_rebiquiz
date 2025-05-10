@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import QuestionCard from './components/QuestionCard';
 import Summary from './components/Summary';
 import { useQuizStore } from './store/quizStore';
@@ -42,8 +42,11 @@ function App() {
     }
   }, [showWelcome]);
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = (correct: boolean) => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const answer = currentQuestion.options ? currentQuestion.options[0] : '';
     setAnswer(currentQuestionIndex, answer);
+    
     if (currentQuestionIndex + 1 < questions.length) {
       // Passa alla prossima domanda
     } else {
