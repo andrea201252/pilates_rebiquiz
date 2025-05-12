@@ -1,9 +1,10 @@
 export interface Question {
-  id: number;
+  id?: number;
   question: string;
   options: string[];
   correctAnswer: string;
   explanation: string;
+  exercise_description?: string;
 }
 
 export interface QuizAnswer {

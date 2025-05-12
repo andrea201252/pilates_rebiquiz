@@ -10,6 +10,7 @@ interface QuizState {
   setQuestions: (questions: Question[]) => void;
   setAnswer: (questionIndex: number, answer: string) => void;
   nextQuestion: () => void;
+  prevQuestion: () => void;
   resetQuiz: () => void;
   setShowSummary: (show: boolean) => void;
   setShowWelcome: (show: boolean) => void;
@@ -30,6 +31,11 @@ export const useQuizStore = create<QuizState>((set) => ({
     set((state) => ({
       currentQuestionIndex: state.currentQuestionIndex + 1,
       showSummary: state.currentQuestionIndex + 1 >= state.questions.length,
+    })),
+  prevQuestion: () =>
+    set((state) => ({
+      currentQuestionIndex: Math.max(0, state.currentQuestionIndex - 1),
+      showSummary: false,
     })),
   resetQuiz: () =>
     set({
